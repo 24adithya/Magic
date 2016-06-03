@@ -1,0 +1,8 @@
+.metadata/*
+**/*.class
+TestPy/.project
+TestPy/.pydevproject
+Try/.cache-main
+Try/.classpath
+Try/.project
+Try/.settings/org.eclipse.jdt.core.prefs
