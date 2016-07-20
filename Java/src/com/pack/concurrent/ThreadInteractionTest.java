@@ -1,6 +1,13 @@
-package com.pack.java.thread;
+package com.pack.concurrent;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 enum BreadType {
 	HONEY_OATS, MULTI_GRAIN, NORMAL, PARMESAN_OREGANO;
@@ -83,7 +90,7 @@ class Sandwich {
 	}
 }
 
-class SandwichDecorator implements Runnable {
+class SandwichDecorator implements Runnable ,Callable<String>{
 	Sandwich sandwich;
 
 	public SandwichDecorator(Sandwich sandwich) {
@@ -97,6 +104,12 @@ class SandwichDecorator implements Runnable {
 					+ Arrays.toString(sandwich.getSandwichSauces())
 					+ " added to sandwich with extras "
 					+ Arrays.toString(sandwich.getExtras()));
+			try {
+				Thread.sleep(2000);
+				System.out.println("Continue dressing after sleep..");
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			notify();
 		}
 	}
@@ -105,9 +118,15 @@ class SandwichDecorator implements Runnable {
 	public void run() {
 		decorateSandwich();
 	}
+
+	@Override
+	public String call() throws Exception {
+		decorateSandwich();
+		return "Sandwich dressed successfully !";
+	}
 }
 
-class SandwichMaker implements Runnable {
+class SandwichMaker implements Runnable,Callable<String> {
 	SandwichMaterialAssembler assembler;
 	SandwichDecorator decorator;
 	SandwichPresenter presenter;
@@ -169,9 +188,15 @@ class SandwichMaker implements Runnable {
 	public void run() {
 		makeSandwich();
 	}
+
+	@Override
+	public String call() throws Exception {
+		makeSandwich();
+		return "Sandwich made successfully !";
+	}
 }
 
-class SandwichMaterialAssembler implements Runnable {
+class SandwichMaterialAssembler implements Callable<String>, Runnable {
 
 	Sandwich sandwich;
 
@@ -198,9 +223,15 @@ class SandwichMaterialAssembler implements Runnable {
 	public void run() {
 		assembleRawMaterial();
 	}
+
+	@Override
+	public String call() throws Exception {
+		assembleRawMaterial();
+		return "Assembler successful !";
+	}
 }
 
-class SandwichPresenter implements Runnable {
+class SandwichPresenter implements Runnable,Callable<String> {
 	Sandwich sandwich;
 
 	public SandwichPresenter(Sandwich sandwich) {
@@ -220,10 +251,51 @@ class SandwichPresenter implements Runnable {
 	public void run() {
 		presentToCustomer();
 	}
+
+	@Override
+	public String call() throws Exception {
+		presentToCustomer();
+		return "Presenter successful !";
+	}
 }
 
 enum SandwichSauce {
 	CHILLI, CHIPOTLE, HONEY_MUSTARD, MAYO, MINT_MAYO, MUSTARD;
+}
+
+class SingleRunnableWorker implements Runnable {
+
+	@Override
+	public void run() {
+		System.out.println("SingleRunnableWorker Running..");
+		try {
+			Thread.sleep(10000);
+			System.out.println("SingleRunnableWorker Running after sleep..");
+		} catch (InterruptedException e) {
+			System.out.println("Runnable's Sleep Interrupted !!");
+			e.printStackTrace();
+		}
+	}
+	
+}
+
+class SingleCallableWorker implements Callable<String> {
+
+	@Override
+	public String call() throws Exception {
+		System.out.println("SingleCallableWorker Calling..");
+		try {
+			Thread.sleep(10000);
+		}
+		catch(InterruptedException ex) {
+			System.out.println("Callable's Sleep Interrupted !!");
+			ex.printStackTrace();
+		}
+		
+		System.out.println("SingleCallableWorker Calling after sleep..");
+		return "SingleCallableWorker Calling done";
+	}
+	
 }
 
 public class ThreadInteractionTest {
@@ -238,7 +310,7 @@ public class ThreadInteractionTest {
 	public static final String ANSI_CYAN = "\u001B[36m";
 	public static final String ANSI_WHITE = "\u001B[37m";
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		Sandwich adithyaSandwich = new Sandwich("Adithya",
 				BreadType.PARMESAN_OREGANO, new SandwichSauce[] {
 						SandwichSauce.CHIPOTLE, SandwichSauce.HONEY_MUSTARD },
@@ -283,48 +355,36 @@ public class ThreadInteractionTest {
 		SandwichMaker maker1 = new SandwichMaker(assembler1, decorator1,
 				presenter1);
 
-		Thread threadA1 = new Thread(maker1);
-		Thread threadA3 = new Thread(presenter1);
-		Thread threadA2 = new Thread(decorator1);
-		Thread threadA4 = new Thread(assembler1);
+		List<Callable<String>> tasks = new ArrayList<>();
+		tasks.add(maker1);
+		tasks.add(decorator1);
+		tasks.add(presenter1);
+		tasks.add(assembler1);
+		
+		ExecutorService executorService = Executors.newFixedThreadPool(4);
+		/*List<Future<String>> results = *///executorService.invokeAll(tasks);
+		
+		Future<String> res = executorService.submit(new SingleCallableWorker());
+//		System.out.println(res.get());
 
-		threadA1.start();
-		threadA2.start();
-		threadA3.start();
-		threadA4.start();
-
-		/*
-		 * Queue<String> queue = new PriorityQueue<String>(); String[] jobs =
-		 * new String[]{"com.pack.java.thread.SandwichMaker",
-		 * "com.pack.java.thread.SandwichMaker"
-		 * ,"com.pack.java.thread.SandwichMaker"
-		 * ,"com.pack.java.thread.SandwichMaker"
-		 * ,"com.pack.java.thread.SandwichMaker",
-		 * "com.pack.java.thread.SandwichPresenter"
-		 * ,"com.pack.java.thread.SandwichPresenter"
-		 * ,"com.pack.java.thread.SandwichPresenter"
-		 * ,"com.pack.java.thread.SandwichPresenter",
-		 * "com.pack.java.thread.SandwichMaterialAssembler"
-		 * ,"com.pack.java.thread.SandwichMaterialAssembler"
-		 * ,"com.pack.java.thread.SandwichMaterialAssembler"
-		 * ,"com.pack.java.thread.SandwichMaterialAssembler"
-		 * ,"com.pack.java.thread.SandwichMaterialAssembler",
-		 * "com.pack.java.thread.SandwichDecorator"
-		 * ,"com.pack.java.thread.SandwichDecorator"
-		 * ,"com.pack.java.thread.SandwichDecorator"
-		 * ,"com.pack.java.thread.SandwichDecorator"
-		 * ,"com.pack.java.thread.SandwichDecorator"};
-		 * 
-		 * for(String tempJob : jobs) { queue.add(tempJob); }
-		 * 
-		 * for(Thread tempThread : threads) { Class clazz; try { clazz =
-		 * Class.forName(queue.poll()); Runnable obj =
-		 * (Runnable)clazz.newInstance(); tempThread = new Thread(obj);
-		 * tempThread.start(); } catch (ClassNotFoundException e) {
-		 * e.printStackTrace(); } catch (InstantiationException e) {
-		 * e.printStackTrace(); } catch (IllegalAccessException e) {
-		 * e.printStackTrace(); } }
-		 */
+		executorService.submit(new SingleRunnableWorker());
+		
+		executorService.shutdown();
+		System.out.println("Finishwa !");
+//		try {
+//			StringBuilder tempResult = new StringBuilder();
+//			for(Future<String> tempFuture : results) {
+//				tempResult.append(tempFuture.get());
+//			}
+//			
+//			System.out.println(tempResult);
+//			System.out.println("Finishwa !");
+//			executorService.shutdown();
+//		}
+//		catch(InterruptedException | ExecutionException ex) {
+//			ex.printStackTrace();
+//			throw ex;
+//		}
 	}
 }
 

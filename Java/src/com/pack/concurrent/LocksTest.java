@@ -15,8 +15,8 @@ public class LocksTest {
 		Thread t2 = new Thread(w1, "Edge");
 		
 		Worker2 w2 = new Worker2(activity);
-		Thread t3 = new Thread(w2, "Adams");
-		Thread t4 = new Thread(w2, "Edge");
+		Thread t3 = new Thread(w2, "Knight");
+		Thread t4 = new Thread(w2, "Hart");
 		
 		t1.start();
 		t2.start();
