@@ -1,8 +1,12 @@
 package com.pack.collections;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Vector;
 
 public class HashMapTest {
 	public static void main(String[] args) {
@@ -10,7 +14,10 @@ public class HashMapTest {
 		Map<Integer,Integer> map2 = new HashMap<>();
 		
 		HashMapTest test = new HashMapTest();
-		test.testCustomKeys();
+		List<Integer> list = test.test1();
+		System.out.println(list);
+//		test.test();
+//		test.testCustomKeys();
 		/*test.addToMap1(map1);
 		test.addToMap2(map2);
 		
@@ -21,6 +28,71 @@ public class HashMapTest {
 		System.out.println("Current time b4 retrieving from map2 " + new Date(System.currentTimeMillis()));
 		System.out.println(map2.get(24));
 		System.out.println("Current time b4 after from map 2" + new Date(System.currentTimeMillis()));*/
+	}
+	
+	private Vector<Integer> test1() {
+		Vector<Integer> vec = new Vector<>();
+		vec.add(10);
+		vec.add(20);
+		
+		return vec;
+	}
+
+	private void test()
+	{
+		Map<Integer,List<String>> map = new HashMap<>();
+		String[] opsTrxIdArray = new String[] {null, null, "2", null, null, 
+											   null, "4", null, "5", null,
+											   "6", "4", null, "6", null,
+											   "10", "15", "9", "10", null};
+		int limit = 5, count = 0, day = 0;
+		String[] finalOpsTrxIdArray = new String[limit];
+		
+		for( ; count < opsTrxIdArray.length ; day++, count++)
+		{
+			String opsTrxId = opsTrxIdArray[count];
+			if (opsTrxId != null) 
+			{
+				if (map.get(day) == null) {
+					List<String> opsTrxIdList = new ArrayList<>();
+
+					opsTrxIdList.add(opsTrxId);
+					map.put(day, opsTrxIdList);
+				} 
+				else 
+				{
+					List<String> existingOpsTrxIdList = map.get(day);
+					if (!existingOpsTrxIdList.contains(opsTrxId)) 
+					{
+						existingOpsTrxIdList.add(opsTrxId);
+					}
+					map.put(day, existingOpsTrxIdList);
+				}
+			}
+			
+			if((day + 1) == limit )
+			{
+				day = -1;
+			}
+		}
+		
+		for(count = 0; count < finalOpsTrxIdArray.length ; count++)
+		{
+			List<String> opsTrxIdList = map.get(count);
+			if(opsTrxIdList != null)
+			{
+				Iterator<String> opsTrxIdListItr = opsTrxIdList.iterator();
+				StringBuilder opsTrxIdBuilder = new StringBuilder(); 
+				while(opsTrxIdListItr.hasNext())
+				{
+					opsTrxIdBuilder.append("|").append(opsTrxIdListItr.next());
+				}
+				finalOpsTrxIdArray[count] = opsTrxIdBuilder.toString().substring(1);
+			}
+		}
+		
+		System.out.println(map);
+		System.out.println(finalOpsTrxIdArray);
 	}
 	
 	private void addToMap1(Map<Integer, Integer> map) {

@@ -7,18 +7,38 @@ import java.math.BigDecimal;
 public class ReflectionTest {
 
 	public static void main(String[] args) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-		Sample sample = new Sample(10,BigDecimal.valueOf(100),BigDecimal.valueOf(100));
+		BigDecimal[] qtyArray = new BigDecimal[] {BigDecimal.valueOf(1000),BigDecimal.valueOf(2000)};
+		Sample sample = new Sample(10, BigDecimal.valueOf(100), BigDecimal.valueOf(100), qtyArray);
 //		sample.setNumber(10);
 //		sample.setQtyDay1(new BigDecimal(100.0));
 		
-		String str = "qtyDay1";
+		String str = "qtyArray.0";
+		String[] array =  str.split("\\.");
 		
-		sample = setQtyNormal(sample, str);
+		SampleIDTO sampleIDTO = setQtyNormal(sample, array[0], 1);
 		
-		System.out.println("Modified sample qtyDay1 = " + sample.toString());
+		findMet(new SampleIDTO(), "qtyArray" );
+		
+		System.out.println("Modified sample qtyDay1 = " + sampleIDTO.toString());
 		
 		int res = callFinally();
 		System.out.println("Res = " + res); 
+	}
+
+	private static void findMet(SampleIDTO sampleIDTO, String str) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+		String getMethodStr = str.substring(0, 1).toUpperCase() + str.substring(1);
+		getMethodStr = "get" + getMethodStr;
+		
+		
+		BigDecimal qty = null;
+		Method getMethod = sampleIDTO.getClass().getMethod(getMethodStr, null);
+		
+		if(getMethod != null) {
+			Object value = getMethod.invoke(sampleIDTO, null);
+			if(value instanceof BigDecimal[]) {
+//				qty = ((BigDecimal[]) value)[count];
+			}
+		}
 	}
 
 	private static int callFinally() {
@@ -100,7 +120,7 @@ public class ReflectionTest {
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	private static Sample setQtyNormal(Sample sample, String str) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+	private static SampleIDTO setQtyNormal(SampleIDTO sample, String str, int count) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		
 		if(sample != null) {
 			
@@ -115,24 +135,29 @@ public class ReflectionTest {
 			
 			if(getMethod != null) {
 				Object value = getMethod.invoke(sample, null);
-    			if(value instanceof BigDecimal) {
-    				qty = (BigDecimal) value;
+    			if(value instanceof BigDecimal[]) {
+    				qty = ((BigDecimal[]) value)[count];
     			}
 			}
 			
-			if(qty != null) {
-				Method setMethod = sample.getClass().getMethod(setMethodStr, new Class[]{BigDecimal.class});
-				setMethod.invoke(sample, BigDecimal.valueOf(1000));
-			}
+//			if(qty != null) {
+//				Method setMethod = sample.getClass().getMethod(setMethodStr, new Class[]{BigDecimal[].class});
+//				setMethod.invoke(sample, new BigDecimal[]{BigDecimal.valueOf(3000),BigDecimal.valueOf(4000)});
+//			}
 		}
 		return sample;
 	}
 }
 
-class Sample {
+class SampleIDTO {
+	
+}
+
+class Sample extends SampleIDTO {
 	private Integer number;
 	private BigDecimal qtyDay1;
 	private BigDecimal qtyDay2;
+	private BigDecimal[] qtyArray;
 	
 	public Sample() {
 		
@@ -143,6 +168,14 @@ class Sample {
 		this.number = number;
 		this.qtyDay1 = qtyDay1;
 		this.qtyDay2 = qtyDay2;
+	}
+	
+	public Sample(Integer number, BigDecimal qtyDay1, BigDecimal qtyDay2, BigDecimal[] qtyArray) {
+		super();
+		this.number = number;
+		this.qtyDay1 = qtyDay1;
+		this.qtyDay2 = qtyDay2;
+		this.qtyArray = qtyArray;
 	}
 
 	/*private Integer getNumber() {
@@ -192,11 +225,19 @@ class Sample {
 	public void setQtyDay2(BigDecimal qtyDay2) {
 		this.qtyDay2 = qtyDay2;
 	}
-	
+
+	public BigDecimal[] getQtyArray() {
+		return qtyArray;
+	}
+
+	public void setQtyArray(BigDecimal[] qtyArray) {
+		this.qtyArray = qtyArray;
+	}
+
 	@Override
 	public String toString() {
 		
-		return "Number = " + number + ", qtyDay1 = " + qtyDay1 + ", qtyDay2 = " + qtyDay2;
+		return "Number = " + number + ", qtyDay1 = " + qtyDay1 + ", qtyDay2 = " + qtyDay2 + ", qtyArray = " + qtyArray;
 	}
 	
 }
