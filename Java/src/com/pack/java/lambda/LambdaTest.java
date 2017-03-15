@@ -59,6 +59,9 @@ public class LambdaTest {
 
 		printWithPredicates(animals, a -> a.canHop());
 		printWithPredicates(animals, a -> a.canSwim());
+
+		check((h, l) -> {return h.toString().length() > l.toString().length(); }, new StringBuilder("abcd"), new StringBuilder("def"));
+
 	}
 
 	private static void print(List<Animal> animals, CheckTrait checker) {
@@ -80,4 +83,16 @@ public class LambdaTest {
 	private static void testString(String a) {
 
 	}
+
+	interface Climb {
+		boolean isTooHigh(StringBuilder height, StringBuilder limit);
+	}
+
+	static void check(Climb climb, StringBuilder height, StringBuilder limit) {
+		if (climb.isTooHigh(height, limit))
+			System.out.println("too high");
+		else
+			System.out.println("ok");
+	}
+
 }
