@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+
 public class LambdaTest {
 
 	boolean wantWhetherCanHop = true;
@@ -60,7 +62,9 @@ public class LambdaTest {
 		printWithPredicates(animals, a -> a.canHop());
 		printWithPredicates(animals, a -> a.canSwim());
 
-		check((h, l) -> {return h.toString().length() > l.toString().length(); }, new StringBuilder("abcd"), new StringBuilder("def"));
+		check((h, l) -> {
+			return h.toString().length() > l.toString().length();
+		}, new StringBuilder("abcd"), new StringBuilder("def"));
 
 	}
 
@@ -96,3 +100,74 @@ public class LambdaTest {
 	}
 
 }
+
+class Bird {
+	public Bird hasFeathers() {
+		return null;
+	}
+}
+
+class Penguin extends Bird {
+	@Override
+	public final Penguin hasFeathers() { // DOES NOT COMPILE
+		return null;
+	}
+}
+
+class Rodent {
+	protected int tailLength = 4;
+
+	public void getRodentDetails() {
+		System.out.println("[parentTail=" + this.tailLength + "]");
+	}
+}
+
+class Mouse extends Rodent {
+	protected int tailLength = 8;
+
+	public void getRodentDetails() {
+		super.getRodentDetails();
+		System.out.println("[tail=" + tailLength + ",parentTail=" + super.tailLength + "]");
+	}
+
+	public static void main(String[] args) {
+		Mouse mouse = new Mouse();
+		mouse.getRodentDetails();
+//		mouse.getMouseDetails();
+	}
+}
+
+interface T1 {
+	int test();
+}
+
+interface T2 {
+	int test();
+}
+
+interface T4 {
+	boolean test();
+}
+
+class T3 implements T1, T2, T4 {
+
+	public static void main(String[] args) {
+		T3 t3 = new T3();
+		t3.test(() ->  10 );
+		t3.test(() ->  false );
+	}
+	
+	void test(T1 t1) {
+		System.out.println( t1.test() );
+	}
+	
+	void test(T4 t4) {
+		System.out.println( t4.test() );
+	}
+
+	public boolean test() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+}
+
