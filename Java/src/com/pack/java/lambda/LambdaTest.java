@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
 
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
-
 public class LambdaTest {
 
 	boolean wantWhetherCanHop = true;
@@ -90,7 +88,7 @@ public class LambdaTest {
 
 	interface Climb {
 		boolean isTooHigh(StringBuilder height, StringBuilder limit);
-	}
+}
 
 	static void check(Climb climb, StringBuilder height, StringBuilder limit) {
 		if (climb.isTooHigh(height, limit))
@@ -171,3 +169,32 @@ class T3 implements T1, T2, T4 {
 	}
 }
 
+class Bear {
+	public static void sneeze() {
+		System.out.println("Bear is sneezing");
+	}
+
+	public void hibernate() {
+		System.out.println("Bear is hibernating");
+	}
+}
+
+class Panda extends Bear {
+	public static void sneeze() { // DOES NOT COMPILE
+		System.out.println("Panda bear sneezes quietly");
+	}
+
+	public void hibernate() { // DOES NOT COMPILE
+		System.out.println("Panda bear is going to sleep");
+	}
+	
+	public static void main(String[] args) {
+		Bear b = new Panda();
+		Panda p = new Panda();
+		b.sneeze();
+		p.sneeze();
+		
+		b = new Bear();
+		b.sneeze();
+	}
+}
