@@ -2,7 +2,6 @@ package com.pack.java.collections;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -75,6 +74,9 @@ public class Java8Test {
 
 		Supplier<ArrayList> methodRef4 = ArrayList::new;
 		Supplier<ArrayList> lambda4 = () -> new ArrayList();
+		
+		Function<List<String>, String> function1 = x -> x.get(0);
+		Function<List<String>, Integer> function2 = List::size;
 	}
 	
 	private void testMapAdditions() {
