@@ -42,7 +42,8 @@ public class ExecutorsTest {
 		
 		int processors = Runtime.getRuntime().availableProcessors();
 		System.out.println("No. of processors " + processors);
-		ExecutorService ex = Executors.newFixedThreadPool(processors);
+//		ExecutorService ex = Executors.newFixedThreadPool(processors);
+		ExecutorService ex = Executors.newSingleThreadExecutor();
 		
 //		ExecutorService ex = Executors.newFixedThreadPool(3);
 		List<Future<String>> results = ex.invokeAll(tasks);
@@ -104,6 +105,7 @@ public class ExecutorsTest {
 		for (; i <= 99999999999l; i++)
 		{
 			i += 1;
+			System.out.println("Painted " + i + " paintings !");
 //			Thread.sleep(5000l);
 		}
 		return "Painted " + i + " paintings !";
@@ -115,6 +117,7 @@ public class ExecutorsTest {
 		for (; i <= 99999999999l; i++)
 		{
 			i += 1;
+			System.out.println("Cooked " + i + " paintings !");
 //			Thread.sleep(5000l);
 		}
 		return "Cooked " + i + " items !";
@@ -126,6 +129,7 @@ public class ExecutorsTest {
 		for (; i <= 99999999999l; i++)
 		{
 			i += 1;
+			System.out.println("Read " + i + " paintings !");
 //			Thread.sleep(5000l);
 		}
 		return "Read " + i + " chapters !";
@@ -164,6 +168,7 @@ public class ExecutorsTest {
 			for (; i <= 99999999999l; i++)
 			{
 				i += 1;
+				System.out.println("Cooked " + i + " paintings !");
 //				Thread.sleep(5000l);
 			}
 			return "Cooked " + i + " items !";
@@ -178,6 +183,7 @@ public class ExecutorsTest {
 			for (; i <= 99999999999l; i++)
 			{
 				i += 1;
+				System.out.println("Read " + i + " paintings !");
 //				Thread.sleep(5000l);
 			}
 			return "Read " + i + " chapters !";
@@ -192,6 +198,7 @@ public class ExecutorsTest {
 			for (; i <= 99999999999l; i++)
 			{
 				i += 1;
+				System.out.println("Painted " + i + " paintings !");
 //				Thread.sleep(5000l);
 			}
 			return "Painted " + i + " paintings !";
