@@ -49,10 +49,10 @@ public class MyDoublyLinkedList<E> {
 			tail = head = newest;
 		}
 		else {
-			newest.prev = head.prev;
+//			newest.prev = head.prev;
 			head.prev = newest;
 			newest.next = head;
-			head.next = null;
+//			head.next = null;
 			head = newest;
 		}
 		
