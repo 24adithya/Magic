@@ -24,7 +24,8 @@ public class SingleExecutorTest {
 			
 //			singleExecutorTest.invoke();
 //			singleExecutorTest.schedule();
-		singleExecutorTest.scheduleAtFixedRate();
+//		singleExecutorTest.scheduleAtFixedRate();
+		singleExecutorTest.scheduleWithFixedDelay();
 			// TODO Auto-generated catch block
 		/*try {
 			
@@ -139,6 +140,28 @@ public class SingleExecutorTest {
 		
 		System.err.println("Time of submission : " + LocalDateTime.now());
 		service.scheduleAtFixedRate(simpleRunnable, 2, 1, TimeUnit.SECONDS);
+		
+		try {
+			service.awaitTermination(50, TimeUnit.SECONDS);
+			service.shutdown();	
+		}
+		finally {
+			while(!service.isTerminated()) {
+//				System.out.print("Service still not terminated.."+ " ");
+//				System.out.print("result1.isDone() : " + result1.isDone() + " ");
+//				System.out.print("result2.isDone() : " + result2.isDone() + " ");
+			}
+		}
+		
+		
+//		System.out.println(result1.get() + " " + result2.get());
+	}
+	
+	private void scheduleWithFixedDelay() throws InterruptedException, ExecutionException {
+		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+		
+		System.err.println("Time of submission : " + LocalDateTime.now());
+		service.scheduleWithFixedDelay(simpleRunnable, 2, 1, TimeUnit.SECONDS);
 		
 		try {
 			service.awaitTermination(50, TimeUnit.SECONDS);
