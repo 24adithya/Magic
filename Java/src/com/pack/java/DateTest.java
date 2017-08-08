@@ -3,27 +3,32 @@ package com.pack.java;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.TimeZone;
 
 public class DateTest {
 
-	private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private DateFormat soapDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
+	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static DateFormat soapDateFormat = new java.text.SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.S");
 	
 	
 	public static void main(String[] args)
 	{
-		DateTest test = new DateTest();
+		/*DateTest test = new DateTest();
 		Date date = Calendar.getInstance().getTime();
 		test.convDate("2015-11-01");
 		
 		Set<String> set = new HashSet<>();
 		set.add("a");
-		test.processCollection(set);
+		test.processCollection(set);*/
+
+		Calendar c = Calendar.getInstance();
+		soapDateFormat.setTimeZone(TimeZone.getTimeZone("America/Chicago"));
+		c.setTimeInMillis(1488456000000l);
+		System.out.println(soapDateFormat.format(c.getTime()));
 	}
 	
 	private void processCollection(Collection<String> coll)
