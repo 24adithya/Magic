@@ -111,19 +111,31 @@ class MovieR {
 	public static final int REGULAR = 0;
 	public static final int NEW_RELEASE = 1;
 	private String _title;
-	private int _priceCode;
+	private Price _price;
 
 	public MovieR(String title, int priceCode) {
 		_title = title;
-		_priceCode = priceCode;
+		setPriceCode(priceCode);
 	}
 
 	public int getPriceCode() {
-		return _priceCode;
+		return _price.getPriceCode();
 	}
 
-	public void setPriceCode(int arg) {
-		_priceCode = arg;
+	public void setPriceCode(int priceCode) {
+		switch (priceCode) {
+		case MovieR.REGULAR:
+			_price = new RegularPrice();
+			break;
+		case MovieR.NEW_RELEASE:
+			_price = new NewReleasePrice();
+			break;
+		case MovieR.CHILDRENS:
+			_price = new ChildrensPrice();
+			break;
+		default:
+			throw new IllegalArgumentException("Incorrect Price Code");
+		}
 	}
 
 	public String getTitle() {
@@ -131,30 +143,67 @@ class MovieR {
 	}
 
 	public double getCharge(int daysRented) {
-		double thisAmount = 0.0;
-		switch (getPriceCode()) {
-		case MovieR.REGULAR:
-			thisAmount += 2;
-			if (daysRented > 2)
-				thisAmount += (daysRented - 2) * 1.5;
-			break;
-		case MovieR.NEW_RELEASE:
-			thisAmount += daysRented * 3;
-			break;
-		case MovieR.CHILDRENS:
-			thisAmount += 1.5;
-			if (daysRented > 3)
-				thisAmount += (daysRented - 3) * 1.5;
-			break;
-		}
-		return thisAmount;
+		return _price.getCharge(daysRented);
+	}
+
+	int getFrequentRenterPoints(int daysRented) {
+		return _price.getFrequentRenterPoints(daysRented);
+	}
+}
+
+interface Price {
+	double getCharge(int daysRented);
+	int getPriceCode();
+	
+	default int getFrequentRenterPoints(int daysRented) {
+		return 1;
+	}
+}
+
+class RegularPrice implements Price {
+	public double getCharge(int daysRented) {
+		double result = 2;
+		if (daysRented > 2)
+			result += (daysRented - 2) * 1.5;
+		return result;
+	}
+
+	@Override
+	public int getPriceCode() {
+		return MovieR.REGULAR;
+	}
+}
+
+class ChildrensPrice implements Price {
+	public double getCharge(int daysRented) {
+		double result = 1.5;
+		if (daysRented > 3)
+			result += (daysRented - 3) * 1.5;
+		return result;
+	}
+
+	@Override
+	public int getPriceCode() {
+		return MovieR.CHILDRENS;
+	}
+}
+
+class NewReleasePrice implements Price {
+	public double getCharge(int daysRented) {
+		return daysRented * 3;
+	}
+
+	@Override
+	public int getPriceCode() {
+		return MovieR.NEW_RELEASE;
 	}
 	
-	int getFrequentRenterPoints(int daysRented) {
-		if ((getPriceCode() == Movie.NEW_RELEASE) && daysRented > 1)
+	public int getFrequentRenterPoints(int daysRented) {
+		if(daysRented > 1) {
 			return 2;
-		else
-			return 1;
+		}else {
+			return Price.super.getFrequentRenterPoints(daysRented);
+		}
 	}
 }
 
