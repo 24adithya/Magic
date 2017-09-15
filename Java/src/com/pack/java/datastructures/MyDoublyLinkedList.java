@@ -1,5 +1,9 @@
 package com.pack.java.datastructures;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class MyDoublyLinkedList<E> {
 
 	private static class Node<E> {
@@ -50,8 +54,8 @@ public class MyDoublyLinkedList<E> {
 		}
 		else {
 //			newest.prev = head.prev;
-			head.prev = newest;
-			newest.next = head;
+			head.setPrev( newest );
+			newest.setNext(head);
 //			head.next = null;
 			head = newest;
 		}
@@ -85,6 +89,7 @@ public class MyDoublyLinkedList<E> {
 		
 		E element = head.getElement();
 		head = head.getNext();
+		head.setPrev(null);
 		size--;
 	
 		if(size == 0) {
@@ -100,7 +105,8 @@ public class MyDoublyLinkedList<E> {
 		}
 		
 		E element = tail.getElement();
-		tail = tail.getNext();
+		tail = tail.getPrev();
+		tail.setNext(null);
 		size--;
 		
 		if(isEmpty()) {
@@ -110,11 +116,19 @@ public class MyDoublyLinkedList<E> {
 		return element;
 	}
 
-	public void list() {
+	public void listFront() {
 		Node<E> temp = head;
 		while (temp != null) {
 			System.out.println(temp.getElement());
 			temp = temp.getNext();
+		}
+	}
+	
+	public void listRear() {
+		Node<E> temp = tail;
+		while (temp != null) {
+			System.out.println(temp.getElement());
+			temp = temp.getPrev();
 		}
 	}
 
@@ -125,12 +139,32 @@ public class MyDoublyLinkedList<E> {
 		list.addLast("AAR");
 		list.addLast("Adams");
 		
+		list.removeFirst();
+		list.removeLast();
+		
 		/*list.removeLast();
 		list.removeLast();
 		list.removeLast();
 		list.removeLast();
 		list.removeLast();*/
 		
-		list.list();
+		list.listFront();
+		list.listRear();
+		
+		list.addToList();
+	}
+	
+	private void addToList() {
+		List<Integer> list = new LinkedList<>();
+		
+		//Add to list
+		
+		iterateList(list);
+	}
+	
+	private void iterateList(List<Integer> listToIterate) {
+		ArrayList<Integer> list = (ArrayList<Integer>) listToIterate;
+		
+		//iterate list
 	}
 }
