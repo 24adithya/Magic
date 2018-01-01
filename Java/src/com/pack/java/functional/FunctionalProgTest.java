@@ -17,6 +17,14 @@ public class FunctionalProgTest {
 	public static void main(String[] args) {
 		FunctionalProgTest test = new FunctionalProgTest();
 
+//		StringBuilder builder = new StringBuilder();
+//		Consumer<String> consumer = t -> builder.append(t);
+//		
+//		BiFunction<String, String, String> biFunc = (a, b) -> {
+//			return a + b;
+//		};
+		
+		
 		// Test Consumer
 		test.consumer(test);
 
