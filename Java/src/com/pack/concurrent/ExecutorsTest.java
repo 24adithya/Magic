@@ -66,7 +66,7 @@ public class ExecutorsTest {
 		
 		read();
 		cook();
-		paint();
+//		paint();
 		
 		nowTime = System.currentTimeMillis();
 		endDate = new Date(nowTime);
@@ -99,25 +99,26 @@ public class ExecutorsTest {
 		}*/
 	}
 	
-	public static String paint()
+	public static String paint() throws Exception
 	{
-		long i = 1;
-		for (; i <= 99999999999l; i++)
-		{
-			i += 1;
-			System.out.println("Painted " + i + " paintings !");
-//			Thread.sleep(5000l);
-		}
-		return "Painted " + i + " paintings !";
+		throw new Exception("Unable to paint !");
+//		long i = 1;
+//		for (; i <= 999999l; i++)
+//		{
+//			i += 1;
+//			System.out.println("Painted " + i + " paintings !");
+////			Thread.sleep(5000l);
+//		}
+//		return "Painted " + i + " paintings !";
 	}
 	
 	public static String cook() throws InterruptedException
 	{
 		long i = 1;
-		for (; i <= 99999999999l; i++)
+		for (; i <= 999999l; i++)
 		{
 			i += 1;
-			System.out.println("Cooked " + i + " paintings !");
+			System.out.println("Cooked " + i + " emparedados !");
 //			Thread.sleep(5000l);
 		}
 		return "Cooked " + i + " items !";
@@ -126,10 +127,10 @@ public class ExecutorsTest {
 	public static String read()
 	{
 		long i = 1;
-		for (; i <= 99999999999l; i++)
+		for (; i <= 999999l; i++)
 		{
 			i += 1;
-			System.out.println("Read " + i + " paintings !");
+			System.out.println("Read " + i + " books !");
 //			Thread.sleep(5000l);
 		}
 		return "Read " + i + " chapters !";
@@ -165,10 +166,10 @@ public class ExecutorsTest {
 		public String call() throws InterruptedException
 		{
 			long i = 1;
-			for (; i <= 99999999999l; i++)
+			for (; i <= 999999l; i++)
 			{
 				i += 1;
-				System.out.println("Cooked " + i + " paintings !");
+				System.out.println("Cooked " + i + " emparedados !");
 //				Thread.sleep(5000l);
 			}
 			return "Cooked " + i + " items !";
@@ -180,10 +181,10 @@ public class ExecutorsTest {
 		public String call()
 		{
 			long i = 1;
-			for (; i <= 99999999999l; i++)
+			for (; i <= 999999l; i++)
 			{
 				i += 1;
-				System.out.println("Read " + i + " paintings !");
+				System.out.println("Read " + i + " books !");
 //				Thread.sleep(5000l);
 			}
 			return "Read " + i + " chapters !";
@@ -192,16 +193,17 @@ public class ExecutorsTest {
 	
 	class Painting implements Callable<String> {
 		@Override
-		public String call()
+		public String call() throws Exception
 		{
-			long i = 1;
-			for (; i <= 99999999999l; i++)
-			{
-				i += 1;
-				System.out.println("Painted " + i + " paintings !");
-//				Thread.sleep(5000l);
-			}
-			return "Painted " + i + " paintings !";
+			throw new Exception("Unable to paint !");
+//			long i = 1;
+//			for (; i <= 999999l; i++)
+//			{
+//				i += 1;
+//				System.out.println("Painted " + i + " paintings !");
+////				Thread.sleep(5000l);
+//			}
+//			return "Painted " + i + " paintings !";
 		}
 	}
 }

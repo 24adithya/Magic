@@ -3,6 +3,8 @@ package com.pack.java.thread.communication;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.pack.java.MainVarargsTest;
+
 public class VolatileTest {
 	
 	private List<Integer> numberCollection;
@@ -12,6 +14,7 @@ public class VolatileTest {
 	}
 	
 	public static void main(String[] args) {
+		
 		VolatileTest volatileTest = new VolatileTest();
 		volatileTest.executeTask();
 	}
@@ -26,7 +29,7 @@ public class VolatileTest {
 	}
 	
 	protected void insertIntoColl(int number) {
-		
+		System.out.println();
 	}
 }
 

@@ -1,6 +1,8 @@
 package com.pack.java;
 
+import java.text.AttributedString;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -35,7 +37,6 @@ public class ArrayTest {
 		System.out.println();
 		
 		Integer[] testInt = null;
-		
 		new ArrayTest().modifyArray(testInt);
 		System.out.println();
 	}
@@ -43,6 +44,7 @@ public class ArrayTest {
 	private void modifyArray(Integer[] testInt)
 	{
 		testInt = new Integer[] {10,20,40,80};
+		System.out.println(Arrays.toString(testInt));
 	}
 
 	private void modifyList(List<Integer> list) {
