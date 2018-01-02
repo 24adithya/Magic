@@ -82,6 +82,8 @@ public class StreamTest {
 		employeeAttrs.put("Sravya", false);
 		employeeAttrs.put("Vidyasagar", false);
 		
+		System.out.println("Test one more");
+		
 //		employeeAttrs.values().stream().filter(t -> true == t).TODO
 	}
 	
