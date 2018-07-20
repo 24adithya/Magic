@@ -1,5 +1,7 @@
 package com.pack.java.streams;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentMap;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.LongStream;
@@ -14,8 +17,25 @@ import java.util.stream.Stream;
 
 public class StreamTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException {
 
+	    System.out.println(Boolean.TRUE == true);
+	    
+	    Map map1 = new HashMap<>();
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("1");
+	    map1.put(1, sb);
+	    
+	    sb.append(",2");
+	    
+	    System.out.println(map1);
+	    
+	    
+	    
+	    Map<Integer, Boolean> map = new HashMap<>();
+	    List<Integer> ids = map.keySet().stream().map(Function.identity()).collect(Collectors.toList());
+	    System.out.println(ids);
+	    System.out.println( InetAddress.getLocalHost().getHostName() );
 		/*Predicate<? super String> predicate = s -> s.startsWith("g");
 		Stream<String> stream1 = Stream.generate(() -> "growl! ");
 		Stream<String> stream2 = Stream.generate(() -> "growl! ");

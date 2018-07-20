@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<!-- <PatternLayout pattern="%highlight{%d{DATE} %p %c{10} [%t] %m%n%throwable{1} %ex}{FATAL=white, ERROR=red, WARN=blue, INFO=black, DEBUG=green, TRACE=blue}"/> -->
+			<PatternLayout pattern="%d{DATE} %p %c{10} [%t] %m%n%throwable{1} %ex"/>
+		</Console>
+	</Appenders>
+	<Loggers>
+		<!-- <Logger name="com.altra" level="debug">
+			<AppenderRef ref="Console"/>
+		</Logger>
+		<Logger name="com.sungard.entegrate" level="debug">
+			<AppenderRef ref="Console"/>
+		</Logger>
+		<Logger name="com.sungard.pipeline" level="debug">
+			<AppenderRef ref="Console"/>
+		</Logger> -->
+		<Root level="info">
+			<AppenderRef ref="Console"/>
+		</Root>
+	</Loggers>
+</Configuration>
