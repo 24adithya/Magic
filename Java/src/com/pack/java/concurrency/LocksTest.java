@@ -1,14 +1,17 @@
 package com.pack.java.concurrency;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class LocksTest {
 
     public static void main(String[] args) {
-        List<Integer> contents = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
         Lock lock = new ReentrantLock();
         String greenColor = "\u001B[32m";
         String yellowColor = "\u001B[33m";
@@ -17,20 +20,25 @@ public class LocksTest {
         MyConsumer myConsumer1 = new MyConsumer(yellowColor, contents, lock);
         MyConsumer myConsumer2 = new MyConsumer(redColor, contents, lock);
 
-        new Thread(myProducer).start();
-        new Thread(myConsumer1).start();
-        new Thread(myConsumer2).start();
+        ExecutorService service = Executors.newFixedThreadPool(3);
+        service.execute(myProducer);
+        service.execute(myConsumer2);
+        service.execute(myConsumer1);
+// new Thread(myProducer).start();
+// new Thread(myConsumer1).start();
+// new Thread(myConsumer2).start();
+        service.shutdown();
     }
 }
 
 class MyProducer implements Runnable {
 
     private String color;
-    private List<Integer> contents;
+    private List<String> contents;
     private Lock lock;
 
     public MyProducer(String color,
-                      List<Integer> contents,
+                      List<String> contents,
                       Lock lock) {
         this.color = color;
         this.contents = contents;
@@ -39,22 +47,27 @@ class MyProducer implements Runnable {
 
     @Override
     public void run() {
-// contents = Stream.iterate(1, number -> number + 1).limit(5).collect(Collectors.toList());TODO
-        Integer[] numbers = new Integer[] { 1, 2, 3, 4, 5 };
-        if (lock.tryLock()) {
-            try {
-// Arrays.stream(numbers).forEach((number) -> contents.add(number));TODO
-                for (Integer number : numbers) {
-                    try {
-                        contents.add(number);
-                        System.out.println(color + "Adding " + number);
-                    } finally {
-                        lock.unlock();
+
+        int count = 0;
+        while (true) {
+            if (lock.tryLock()) {
+                try {
+                    contents.add("" + ++count);
+                    System.out.println(color + "Adding " + count);
+                    if (count == 5) {
+                        System.out.println(color + "Adding " + "EOF");
+                        contents.add("EOF");
+                        break;
                     }
-                    Thread.sleep(1000l);
+
+                    try {
+                        Thread.sleep(1000l);
+                    } catch (InterruptedException e) { // TODO Auto-generated catch block e.printStackTrace();
+                    }
+
+                } finally {
+                    lock.unlock();
                 }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
         }
     }
@@ -63,11 +76,11 @@ class MyProducer implements Runnable {
 class MyConsumer implements Runnable {
 
     private String color;
-    private List<Integer> contents;
+    private List<String> contents;
     private Lock lock;
 
     public MyConsumer(String color,
-                      List<Integer> contents,
+                      List<String> contents,
                       Lock lock) {
         this.color = color;
         this.contents = contents;
@@ -76,17 +89,20 @@ class MyConsumer implements Runnable {
 
     @Override
     public void run() {
-// contents = Stream.iterate(1, number -> number + 1).limit(5).collect(Collectors.toList());TODO
+        String value = null;
         while (true) {
             if (lock.tryLock()) {
                 try {
-                    if (contents.size() > 0) {
-                        for (Integer content : contents) {
-                            System.out.println(color + "Consuming + " + content);
-                        }
-// contents.forEach((number) -> System.out.println("Consuming " + number));
-                    } else {
-                        continue;
+                    if (!contents.isEmpty()) {
+                        Iterator<String> stringItr = contents.iterator();
+
+                        while (stringItr.hasNext())
+                            value = stringItr.next();
+                        System.out.println(color + "Consuming " + value);
+                        stringItr.remove();
+                    }
+                    if ("EOF".equals(value)) {
+                        break;
                     }
                 } finally {
                     lock.unlock();
