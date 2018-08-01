@@ -1,20 +1,24 @@
 package com.pack.java.generics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
 public class WildCardTest implements Comparable<WildCardTest> {
 
 	private int number;
 	
 	public static void main(String[] args) throws ClassNotFoundException {
-		List<Dog> dogs = new ArrayList<>();
+		
+		WildCardTest test = new WildCardTest();
+		Box<Integer> box = new Box<>(10);
+		test.displayBoxContents(box);
+		
+		/*List<Dog> dogs = new ArrayList<>();
 		dogs.add(new Labrador());
 		dogs.add(new Labrador());
 		dogs.add(new Labrador());
 
-		WildCardTest test = new WildCardTest();
 		test.addAnimal(dogs);
 
 		System.out.println(dogs);
@@ -36,7 +40,39 @@ public class WildCardTest implements Comparable<WildCardTest> {
 		printClassInfo();
 		
 		List<String> list = new ArrayList<>();
-		test.testListExtn(list);
+		test.testListExtn(list);*/
+		
+		List<Integer> li = Arrays.asList(1, 2, 3);
+		List<String>  ls = Arrays.asList("one", "two", "three");
+		printList(li);
+		printList(ls);
+		
+		System.out.println("##################################");
+		
+		printListObj(li);
+		printListObj(ls);
+	}
+	
+	public void displayBoxContents(Box<? extends Number> boxes) {
+		List<? super Number> list1 = new ArrayList<>();
+		list1.add(10);
+		list1.add(10.10);
+		list1.add(20.20d);
+		
+		List<? super Integer> list = list1;
+		System.out.println(list.toString());
+	}
+	
+	public static void printListObj(List<? extends Object> list) {
+	    for (Object elem : list)
+	        System.out.println(elem + " ");
+	    System.out.println();
+	}
+	
+	public static void printList(List<?> list) {
+	    for (Object elem : list)
+	        System.out.println(elem + " ");
+	    System.out.println();
 	}
 
 	private static void printClassInfo() throws ClassNotFoundException {
@@ -82,7 +118,7 @@ public class WildCardTest implements Comparable<WildCardTest> {
 		return Integer.valueOf(number).compareTo(o.number);
 	}
 	
-	public void testListExtn(Vector<String> list) {
+	public void testListExtn(List<String> list) {
 		
 	}
 }
@@ -135,4 +171,21 @@ class Food {
 		p.pop(); // OK, Popcorn has a pop() method
 //		p.sizzle(); // Not Legal! Popcorn does not have sizzle()
 	}
+}
+
+class Box<T> {
+	private T boxContent;
+	
+	public Box(T t) {
+		this.boxContent = t;
+	}
+
+	public T getBoxContent() {
+		return boxContent;
+	}
+
+	public void setBoxContent(T boxContent) {
+		this.boxContent = boxContent;
+	}
+	
 }

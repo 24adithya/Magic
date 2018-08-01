@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 
 public class FunctionalProgTest {
 
@@ -33,6 +36,18 @@ public class FunctionalProgTest {
 
 	}
 
+	private void defineLambdaFunctions() {
+		Consumer<String> consumerLambdaFunction = string -> System.out.println(string);
+		Consumer<String> consumerInferenceFunction = System.out::println;
+		
+		Function<String, Integer> function = input -> input.length();
+		UnaryOperator<Integer> unaryFunction = number -> number + number;
+		Predicate<String> predicate = string -> string.length() > 5;
+		
+		BinaryOperator<Integer> binaryOperator = (number1, number2) -> number1 + number2;
+		BiFunction<String, String, Integer> binaryFunction = (number1, number2) -> number1.concat(number2).length();
+	}
+	
 	private class People {
 		private String name;
 

@@ -1,5 +1,7 @@
 package com.pack.java.streams;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,6 +10,11 @@ import java.util.Optional;
 import java.util.OptionalDouble;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
+<<<<<<< Updated upstream
+import java.util.function.Function;
+import java.util.function.Predicate;
+=======
+>>>>>>> Stashed changes
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -15,8 +22,33 @@ import java.util.stream.Stream;
 
 public class StreamTest {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownHostException {
 
+<<<<<<< Updated upstream
+	    System.out.println(Boolean.TRUE == true);
+	    
+	    Map map1 = new HashMap<>();
+	    StringBuilder sb = new StringBuilder();
+	    sb.append("1");
+	    map1.put(1, sb);
+	    
+	    sb.append(",2");
+	    
+	    System.out.println(map1);
+	    
+	    
+	    
+	    Map<Integer, Boolean> map = new HashMap<>();
+	    List<Integer> ids = map.keySet().stream().map(Function.identity()).collect(Collectors.toList());
+	    System.out.println(ids);
+	    System.out.println( InetAddress.getLocalHost().getHostName() );
+		/*Predicate<? super String> predicate = s -> s.startsWith("g");
+		Stream<String> stream1 = Stream.generate(() -> "growl! ");
+		Stream<String> stream2 = Stream.generate(() -> "growl! ");
+		boolean b1 = stream1.anyMatch(predicate);
+		boolean b2 = stream2.allMatch(predicate);
+		System.out.println(b1 + " " + b2);
+=======
 		Stream.iterate(1, n -> n + 1).limit(10).parallel().unordered()
 				// .peek((value) -> System.out.println("peeked value = " + value))
 				.forEach((i) -> {
@@ -50,6 +82,7 @@ public class StreamTest {
 		
 		System.out.println(mapI); // // {5=lions,bears, 6=tigers}
 		System.out.println(mapI.getClass()); // class. java.util.TreeMap
+>>>>>>> Stashed changes
 		
 		Map<Integer, String> map = ohMy
 				.collect(Collectors.toMap(String::length, k -> k, (s1, s2) -> s1 + "," + s2));
@@ -69,7 +102,7 @@ public class StreamTest {
 		// -> Boolean.FALSE ));
 		// System.out.println(result.keySet());
 		// System.out.println(result.keySet().size());
-		
+
 		/*
 		 * Predicate<? super String> predicate = s -> s.startsWith("g"); Stream<String>
 		 * stream1 = Stream.generate(() -> "growl! "); Stream<String> stream2 =
@@ -82,41 +115,41 @@ public class StreamTest {
 		 */
 		StreamTest streamTest = new StreamTest();
 		streamTest.testAssociateParallelStream();
-//		streamTest.testSimpleStreamCreation();
+		// streamTest.testSimpleStreamCreation();
 
-//		streamTest.testCombinedData();
-//		streamTest.testSumOddNos();
+		// streamTest.testCombinedData();
+		// streamTest.testSumOddNos();
 		streamTest.testMulAndSumOddNos();
-//		streamTest.testPeek();
-//		streamTest.testLimit();
-//		streamTest.testReduce();
-//		streamTest.testMutableReduce();
+		// streamTest.testPeek();
+		// streamTest.testLimit();
+		// streamTest.testReduce();
+		// streamTest.testMutableReduce();
 	}
 
 	private void testSumOddNos() {
 		System.out.println("Sum is : " + Stream.iterate(1, n -> n + 1).filter(x -> x % 2 == 1).limit(5)
 				.peek(x -> System.out.print(x + " ")).mapToInt(x -> x).sum());
 	}
-	
+
 	private void testMulAndSumOddNos() {
 		System.out.println("Sum is : " + Stream.iterate(1, n -> n + 1).filter(x -> x % 2 == 1).limit(5)
 				.peek(x -> System.out.print(x + " ")).mapToInt(x -> x).mapToObj(x -> x * x)
 				.peek(x -> System.out.print(x + " ")).mapToInt(x -> x).sum());
-		
+
 		LongStream longs = LongStream.of(5, 10);
 		long sum = longs.peek(System.out::print).sum();
-		
+
 		System.out.println();
-		
+
 		longs = LongStream.range(5, 10);
 		sum = longs.peek(System.out::print).sum();
-		
+
 		System.out.println();
-		
+
 		longs = LongStream.rangeClosed(5, 10);
 		sum = longs.peek(System.out::print).sum();
 	}
-	
+
 	private void testMapContents() {
 		Map<String, Boolean> employeeAttrs = new HashMap<>();
 		employeeAttrs.put("Adithya", true);
@@ -125,37 +158,44 @@ public class StreamTest {
 		employeeAttrs.put("Gorakh", true);
 		employeeAttrs.put("Sravya", false);
 		employeeAttrs.put("Vidyasagar", false);
+<<<<<<< Updated upstream
 		
-//		employeeAttrs.values().stream().filter(t -> true == t).TODO
+		
+		
+		employeeAttrs.values().parallelStream().filter(t -> true == t);
+=======
+
+		// employeeAttrs.values().stream().filter(t -> true == t).TODO
+>>>>>>> Stashed changes
 	}
-	
+
 	private void testCombinedData() {
-		
+
 		Stream<Integer> infinite = Stream.iterate(1, x -> x + 1);
 		infinite.filter(x -> x % 2 == 1).peek(System.out::print).limit(5).forEach(System.out::print);
-		//1133557799 - since, 'filter' is above 'peek', only odd numbers are printed.
+		// 1133557799 - since, 'filter' is above 'peek', only odd numbers are printed.
 
 		System.out.println();
-		
+
 		infinite = Stream.iterate(1, x -> x + 1);
 		infinite.peek(System.out::print).filter(x -> x % 2 == 1).limit(5).forEach(System.out::print);
-		//11233455677899 - since, 'peek' is above 'filter', even numbers are printed.
-		
+		// 11233455677899 - since, 'peek' is above 'filter', even numbers are printed.
+
 		System.out.println();
-		
+
 		infinite = Stream.iterate(1, x -> x + 1);
 		infinite.limit(5).peek(System.out::print).filter(x -> x % 2 == 1).forEach(System.out::print);
 		// 11233455 - we are limiting numbers first ('limit'), so only first 5 numbers
 		// are considered for further operation. Additionally,
-		
+
 		System.out.println();
-//		Stream.generate(() -> "Olaf Lazisson")
-//		.filter(n -> n.length() == 4)
-//		.limit(2)
-//		.sorted()
-//		.forEach(System.out::println);
+		// Stream.generate(() -> "Olaf Lazisson")
+		// .filter(n -> n.length() == 4)
+		// .limit(2)
+		// .sorted()
+		// .forEach(System.out::println);
 	}
-	
+
 	private void testPeek() {
 		List<Integer> numbers = new ArrayList<>();
 		List<Character> letters = new ArrayList<>();
@@ -164,18 +204,18 @@ public class StreamTest {
 		Stream<List<?>> stream = Stream.of(numbers, letters);
 		stream.map(List::size).forEach(System.out::print); // 11
 	}
-	
+
 	private void testLimit() {
 		Stream<String> testStream = Stream.generate(() -> "Adams");
 		testStream.forEach(System.out::println);
 	}
-	
+
 	private void testAssociateParallelStream() {
-		Stream<Character> charStream =  Stream.of('i',' ', 'a', 'm',' ', 'g', 'r', 'o', 'o', 't');
-		String result = charStream.parallel().reduce("", (c,s) -> (c + s), (s1 , s2) -> (s1 + s2));
+		Stream<Character> charStream = Stream.of('i', ' ', 'a', 'm', ' ', 'g', 'r', 'o', 'o', 't');
+		String result = charStream.parallel().reduce("", (c, s) -> (c + s), (s1, s2) -> (s1 + s2));
 		System.out.println(result);
 	}
-	
+
 	private void testConcurrentMapCollectors() {
 		Stream<String> ohMy = Stream.of("lions", "tigers", "bears").parallel();
 		ConcurrentMap<Integer, String> map = ohMy
@@ -183,7 +223,7 @@ public class StreamTest {
 		System.out.println(map); // {5=lions,bears, 6=tigers}
 		System.out.println(map.getClass()); // java.util.concurrent.ConcurrentHashMap
 	}
-	
+
 	private void testMutableReduce() {
 		Stream<String> stream = Stream.of("w", "o", "l", "f");
 		StringBuilder word = stream.collect(StringBuilder::new, StringBuilder::append, StringBuilder::append);

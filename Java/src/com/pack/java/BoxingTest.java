@@ -12,4 +12,12 @@ public class BoxingTest {
 	private Boolean findBoolean() {
 		return null;
 	}
+	
+	void testDefault() {
+		System.out.println("testDefault");
+	}
+	
+	protected void testProtected() {
+		System.out.println("testProtected");
+	}
 }

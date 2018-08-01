@@ -1,14 +1,13 @@
 package com.pack.java.streams;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 public class OptionalTest {
 
 	public static void main(String[] args) {
-		Optional<Double> result = new OptionalTest().average();
+		Optional<Double> result = new OptionalTest().average(10,20);
 		
-		System.out.println(result.isPresent() ? result.get() : "");
+		System.out.println(result.isPresent() ? result.get() : Optional.empty());
 	}
 	
 	private Optional<Double> average(int... scores) 
