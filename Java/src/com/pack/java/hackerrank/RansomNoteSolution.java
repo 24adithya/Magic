@@ -4,9 +4,12 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.stream.Stream;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /*
  * Check out the resources on the page's right side to learn more about hashing. The video tutorial is by Gayle Laakmann McDowell, author of the best-selling interview book Cracking the Coding Interview.
@@ -75,45 +78,98 @@ Harold's magazine is missing the word .
 public class RansomNoteSolution {
 
     // Complete the checkMagazine function below.
-    static void checkMagazine(String[] magazine, String[] note) {
-    	//System.out.println(Stream.of(note).filter( word -> Arrays.asList(magazine).contains(word)).count());
-    	if(Stream.of(note).filter( word -> {
-    		Iterator<String> iterator =  Arrays.asList(magazine).iterator();
-   		 while(iterator.hasNext()) {
-   			if(iterator.next().contains(word)) {
-   				iterator.remove();
-   				return true;
-   			} else {
-   				return false;
-   			}
-   		 }
-    		}).count() == note.length) {
-    		System.out.println("YES");
-    	} else {
-    		System.out.println("NO");
-    	}
+    static void checkMagazine(String[] magazine,
+                              String[] note) {
+        List<String> magazineList = new CopyOnWriteArrayList<>(magazine);
+        List<String> noteList = new CopyOnWriteArrayList<>(note);
+        
+        if (noteList.stream().filter(word -> {
+                if(magazineList.contains(word)) {
+                    magazineList.remove(word);
+                    return true;
+                } else {
+                    return false;
+                }
+        }).count() == note.length) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+    }
+    
+    // Complete the substrCount function below.
+    static long substrCount(String s) {
+        
+        s.split("");
+
+    }
+    
+    //abce
+    //dec
+    
+ // Complete the makeAnagram function below.
+    static int makeAnagram(String string1, String string2) {
+
+        int count = 0;
+//        Set<Character> c1Set =  string1.toCharArray();
+        for(char c: string1.toCharArray()) {
+            
+        }
+        
+        return count;
+    }
+    
+ // Complete the isValid function below.
+    static String isValid(String input) {
+        String result = "";
+        
+        if(Arrays.stream(input.split("")).collect(Collectors.groupingBy(Function.identity(), Collectors.counting())).values().stream().distinct().count() > 1) {
+            result = "NO";
+        } else {
+            result = "YES";
+        }
+        
+        System.out.println(result);
+        return result;
+    }
+    
+    static int alternatingCharacters(String s) {
+
+        String currentChar = null;
+        int count = 0;
+        List<String> characterList = new CopyOnWriteArrayList<>(s.split(""));
+        for(String temp : characterList) {
+            if(currentChar == null) {
+                currentChar = temp;
+            } else if(currentChar.equals(temp)) {
+                count++;
+                characterList.remove(temp);
+            } else {
+                currentChar = temp;
+            }
+        }
+        System.out.println(count);
+        return count;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-//    	System.out.println(System.getenv("OUTPUT_PATH"));
         BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("test.txt"));
 
-//        int q = scanner.nextInt();
-//        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
+        int q = scanner.nextInt();
+        scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
-//        for (int qItr = 0; qItr < q; qItr++) {
-            String s1 = scanner.nextLine();
-            String[] s1Array = s1.split(" ");
+        for (int qItr = 0; qItr < q; qItr++) {
+            String s = scanner.nextLine();
 
-            String s2 = scanner.nextLine();
-            String[] s2Array = s2.split(" ");
+//            int result = alternatingCharacters(s);
+//            String result = isValid(s);
+            long result = substrCount(s);
 
-            checkMagazine(s1Array, s2Array);
-
+            bufferedWriter.write(String.valueOf(result));
             bufferedWriter.newLine();
-//        }
+        }
 
         bufferedWriter.close();
 
