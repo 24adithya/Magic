@@ -99,9 +99,7 @@ public class RansomNoteSolution {
     
     // Complete the substrCount function below.
     static long substrCount(String s) {
-        
         s.split("");
-
     }
     
     //abce
