@@ -35,7 +35,9 @@ public class SearchSolution {
 						System.out.print(" ");
 					}
 					System.out.print(index);
+					count++;
 				}
+				System.out.println();
 					
 				break;
 			}
@@ -45,7 +47,7 @@ public class SearchSolution {
 
 	private static int[] getIndicesFromValues(int[] cost, int value1, int value2) {
 		int index1 = getIndexOf(cost, value1, -1);
-		int index2 = getIndexOf(cost, value2, index1);
+		int index2 = getIndexOf(cost, value2, index1 - 1);
 		
 		return new int[] {Math.min(index1, index2), Math.max(index1, index2)};
 	}
@@ -63,18 +65,24 @@ public class SearchSolution {
 	private static final Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
+	    System.out.println("Enter input number");
 		int t = scanner.nextInt();
+		
+		
 		scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
 		for (int tItr = 0; tItr < t; tItr++) {
+		    System.out.println("Enter money");
 			int money = scanner.nextInt();
 			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
+			System.out.println("Enter total flavors");
 			int n = scanner.nextInt();
 			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
 			int[] cost = new int[n];
 
+			System.out.println("Enter flavors");
 			String[] costItems = scanner.nextLine().split(" ");
 			scanner.skip("(\r\n|[\n\r\u2028\u2029\u0085])?");
 
