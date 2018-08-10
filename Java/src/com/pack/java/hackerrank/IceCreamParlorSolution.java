@@ -14,7 +14,7 @@ import java.util.Scanner;
  * 
  * sorted - 1 2 3 4 5
  */
-public class SearchSolution {
+public class IceCreamParlorSolution {
 	
 	// Complete the whatFlavors function below.
 	static int[] whatFlavors(int[] cost, int money) {
