@@ -3,6 +3,9 @@ package com.pack.java.hackerrank;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class TripleSumSolution {
@@ -20,6 +23,19 @@ public class TripleSumSolution {
          * (1 2 1), (1 2 2), (1 3 1), (1 3 2), (1 3 3), (3 3 1), (3 3 2),(3 3 3)
          */
         
+        /*
+         * After sorting 
+         * 
+         * 1 3 5
+         * 2 3
+         * 1 2 3
+         */
+        List<String> triplets = new ArrayList<>();
+        int greater = -1, lesser = -1;
+        for(int count = 0; count < a.length ;) {
+            a[count];
+            Arrays.binarySearch(b, key)
+        }
         
         
         return distinctTriplets;
