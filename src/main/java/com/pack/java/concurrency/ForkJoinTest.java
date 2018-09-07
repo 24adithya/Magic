@@ -18,7 +18,6 @@ public class ForkJoinTest {
 		System.out.print("Weights: ");
 		Arrays.asList(weights).stream().forEach(d -> System.out.print(d.intValue() + " "));
 	}
-
 }
 
 class WeighAnimalAction extends RecursiveAction {

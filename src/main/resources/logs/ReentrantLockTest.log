@@ -1,0 +1,6 @@
+Sep 07, 2018 10:06:54 PM com.pack.java.concurrency.MyReEntrantProducer run
+INFO: [32mProducer running
+Sep 07, 2018 10:06:54 PM com.pack.java.concurrency.MyReEntrantConsumer run
+INFO: [31mConsumer 2 running
+Sep 07, 2018 10:06:54 PM com.pack.java.concurrency.MyReEntrantConsumer run
+INFO: [33mConsumer 1 running
