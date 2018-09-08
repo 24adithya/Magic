@@ -11,3 +11,6 @@ Java/.pmd
 Java/libs/j2ee.jar
 Java/libs/org.apache.commons.io.jar
 /bin/
+target/
+.classpath
+.project

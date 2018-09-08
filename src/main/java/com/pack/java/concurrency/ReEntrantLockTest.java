@@ -1,30 +1,24 @@
 package com.pack.java.concurrency;
 
-import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.FileHandler;
-import java.util.logging.Filter;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class ReEntrantLockTest {
     private ReentrantLock lockContents;
     
-    private transient Logger logger = LogManager.getLogger(ReEntrantLockTest.class.getSimpleName());
-    private FileHandler fh;  
+    private transient Logger logger = LogManager.getLogger(ReEntrantLockTest.class.getCanonicalName());
 
     public static void main(String[] args) {
 
         ReEntrantLockTest locksTest = new ReEntrantLockTest();
         
-//        locksTest.initLogging();
         locksTest.setLockContents(new ReentrantLock(true));
         Queue<String> contents = new LinkedList<>();
 
