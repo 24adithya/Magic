@@ -136,7 +136,7 @@ class MyReEntrantConsumer implements Runnable {
         Thread.currentThread().setName(name);
         locksTest.getLogger().info(color +  Thread.currentThread().getName() + " running" );
         String value = null;
-        while (true) {
+        while (value != "EOF") {
             locksTest.getLogger().debug( color + Thread.currentThread().getName() + " about to acquire lock ");
             if(lock.tryLock()) {
                 locksTest.getLogger().debug( color +  Thread.currentThread().getName() + " hold count is " +  lock.getHoldCount() );
