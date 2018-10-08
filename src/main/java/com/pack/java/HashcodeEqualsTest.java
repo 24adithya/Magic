@@ -5,16 +5,16 @@ import java.util.Map;
 
 public class HashcodeEqualsTest {
 	public static void main(String[] args) {
-		Adams adams1 = new Adams(24, "AAR");
-		Adams adams2 = new Adams(27, "AAR");
-		Adams adams3 = new Adams(29, "ABC");
+//		Adams adams1 = new Adams(24, "AAR");
+//		Adams adams2 = new Adams(27, "AAR");
+//		Adams adams3 = new Adams(29, "ABC");
 		Adams adams4 = new Adams(29, "ABC");
 		Adams adams5 = new Adams(29, "DEF");
 		Map<Adams, String> map = new HashMap<>();
 		
-		map.put(adams1, "Adams1");
-		map.put(adams2, "Adams2");
-		map.put(adams3, "Adams3");
+//		map.put(adams1, "Adams1");
+//		map.put(adams2, "Adams2");
+//		map.put(adams3, "Adams3");
 		map.put(adams4, "Adams4");
 		map.put(adams5, "Adams5");
 		
@@ -22,6 +22,9 @@ public class HashcodeEqualsTest {
 		
 		String name = map.get(adams4);
 		System.out.println(name);
+		
+		name = map.get(adams5);
+        System.out.println(name);
 	}
 }
 
@@ -52,6 +55,7 @@ class Adams {
 	public int hashCode() {
 //		System.out.println(operation);
 		return (this.age + this.clazz.length()) * 13;
+//	    return this.age * 13;
 	}
 	
 	@Override
