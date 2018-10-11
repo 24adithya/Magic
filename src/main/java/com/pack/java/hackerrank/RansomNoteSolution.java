@@ -77,6 +77,24 @@ Harold's magazine is missing the word .
 
 public class RansomNoteSolution {
 
+    static void checkMagazineAlternate(String[] magazine,
+                              String[] note) {
+        List<String> magazineList = new CopyOnWriteArrayList<>(magazine);
+        List<String> noteList = new CopyOnWriteArrayList<>(note);
+        
+        for(String tempWord : magazineList) {
+            if(noteList.contains(tempWord)) {
+                noteList.remove(tempWord);
+            }
+        }
+        
+        if(noteList.isEmpty()) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+    }
+    
     // Complete the checkMagazine function below.
     static void checkMagazine(String[] magazine,
                               String[] note) {
@@ -98,9 +116,9 @@ public class RansomNoteSolution {
     }
     
     // Complete the substrCount function below.
-    static long substrCount(String s) {
+    /*static long substrCount(String s) {
         s.split("");
-    }
+    }*/
     
     //abce
     //dec
@@ -163,9 +181,9 @@ public class RansomNoteSolution {
 
 //            int result = alternatingCharacters(s);
 //            String result = isValid(s);
-            long result = substrCount(s);
+//            long result = substrCount(s);
 
-            bufferedWriter.write(String.valueOf(result));
+//            bufferedWriter.write(String.valueOf(result));
             bufferedWriter.newLine();
         }
 
