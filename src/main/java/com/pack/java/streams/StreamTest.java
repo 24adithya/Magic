@@ -16,7 +16,20 @@ import java.util.stream.Stream;
 public class StreamTest {
 
 	public static void main(String[] args) {
-
+	   ReportQueryResult res1 = new ReportQueryResult();
+	   ReportQueryResult res2 = new ReportQueryResult();
+	   ReportQueryResult res3 = new ReportQueryResult();
+	   
+	   List<ReportQueryResult> list  = new ArrayList<>();
+	   list.add(res1);
+	   list.add(res2);
+	   list.add(res3);
+	   List<Double> opsTrxIdList =  new ArrayList<>();
+	   list.stream().forEach(result -> opsTrxIdList.add((Double)result.map.get("opsTrxId")));
+	   
+	   opsTrxIdList.stream().forEach(System.out::println);
+	}
+	/*{
 		Stream.iterate(1, n -> n + 1).limit(10).parallel().unordered()
 				// .peek((value) -> System.out.println("peeked value = " + value))
 				.forEach((i) -> {
@@ -70,7 +83,7 @@ public class StreamTest {
 		// System.out.println(result.keySet());
 		// System.out.println(result.keySet().size());
 		
-		/*
+		
 		 * Predicate<? super String> predicate = s -> s.startsWith("g"); Stream<String>
 		 * stream1 = Stream.generate(() -> "growl! "); Stream<String> stream2 =
 		 * Stream.generate(() -> "growl! "); boolean b1 = stream1.anyMatch(predicate);
@@ -79,7 +92,7 @@ public class StreamTest {
 		 * Comparator<Integer> c = (a,b) -> b-a; Optional<Integer> optional =
 		 * Stream.iterate(1, n -> n += 1).limit(5).max(c);
 		 * System.out.println(optional.get());
-		 */
+		 
 		StreamTest streamTest = new StreamTest();
 		streamTest.testAssociateParallelStream();
 //		streamTest.testSimpleStreamCreation();
@@ -91,7 +104,7 @@ public class StreamTest {
 //		streamTest.testLimit();
 //		streamTest.testReduce();
 //		streamTest.testMutableReduce();
-	}
+	}*/
 
 	private void testSumOddNos() {
 		System.out.println("Sum is : " + Stream.iterate(1, n -> n + 1).filter(x -> x % 2 == 1).limit(5)
@@ -204,4 +217,16 @@ public class StreamTest {
 		// randoms.forEach(System.out::println);
 		oddNumbers.forEach(System.out::println);
 	}
+}
+
+
+class ReportQueryResult {
+    Map<String, Object> map;
+    
+    public ReportQueryResult() {
+        map = new HashMap<>();
+        map.put("opsTrxId", Math.random() * 50);
+        map.put("opsTrxName", "Name " + Math.random() * 50);
+        map.put("opsTrxPrice", "Price " + Math.random() * 50);
+    }
 }

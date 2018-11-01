@@ -86,21 +86,25 @@ class MyReEntrantProducer implements Runnable {
         while (count <= 5) {
             locksTest.getLogger().debug(color + Thread.currentThread().getName() + " about to acquire lock ");
             if(lock.tryLock()) {
-                locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count is " +  lock.getHoldCount() );
-                contents.add("" + ++count);
-                locksTest.getLogger().debug( color + "Adding " + count);
-              
-                if (count == 5) {
-                    locksTest.getLogger().debug( color + "Adding " + "EOF");
-                    contents.add("EOF");
-                    contents.add("EOF");
+                try {
+                    locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count is " +  lock.getHoldCount() );
+                    contents.add("" + ++count);
+                    locksTest.getLogger().debug( color + "Adding " + count);
+           
+                    if (count == 5) {
+                        locksTest.getLogger().debug( color + "Adding " + "EOF");
+                        contents.add("EOF");
+                        contents.add("EOF");
+//                        lock.unlock();
+                        locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count after exit is " +  lock.getHoldCount() );
+                        break;
+                    }
+                    
+//                    lock.unlock();
+                    locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count after release is " +  lock.getHoldCount() );
+                } finally {
                     lock.unlock();
-                    locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count after exit is " +  lock.getHoldCount() );
-                    break;
                 }
-                
-                lock.unlock();
-                locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count after release is " +  lock.getHoldCount() );
             }
             
             try {
@@ -139,23 +143,27 @@ class MyReEntrantConsumer implements Runnable {
         while (value != "EOF") {
             locksTest.getLogger().debug( color + Thread.currentThread().getName() + " about to acquire lock ");
             if(lock.tryLock()) {
-                locksTest.getLogger().debug( color +  Thread.currentThread().getName() + " hold count is " +  lock.getHoldCount() );
-                if (!contents.isEmpty()) {
-                    Iterator<String> stringItr = contents.iterator();
+                try {
+                    locksTest.getLogger().debug( color +  Thread.currentThread().getName() + " hold count is " +  lock.getHoldCount() );
+                    if (!contents.isEmpty()) {
+                        Iterator<String> stringItr = contents.iterator();
 
-                    while (stringItr.hasNext()) {
-                        value = stringItr.next();
-                        locksTest.getLogger().debug( color + "Consuming " + value);
-                        stringItr.remove();
-                        
-                        if ("EOF".equals(value)) {
-                            locksTest.getLogger().debug( color + "Exiting..");
-                            break;
+                        while (stringItr.hasNext()) {
+                            value = stringItr.next();
+                            locksTest.getLogger().debug( color + "Consuming " + value);
+                            stringItr.remove();
+                            
+                            if ("EOF".equals(value)) {
+                                locksTest.getLogger().debug( color + "Exiting..");
+                                break;
+                            }
                         }
                     }
+//                    lock.unlock();
+                    locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count after release is " +  lock.getHoldCount() );
+                } finally {
+                    lock.unlock();
                 }
-                lock.unlock();
-                locksTest.getLogger().debug( color + Thread.currentThread().getName() + " hold count after release is " +  lock.getHoldCount() );
             }
         }
     }
