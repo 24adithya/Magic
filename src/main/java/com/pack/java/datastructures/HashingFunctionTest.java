@@ -7,6 +7,7 @@ public class HashingFunctionTest {
 
 	public static void main(String[] args) {
 		HashingFunctionTest test = new HashingFunctionTest();
+		System.out.println(10 ^ (10 >>> 16));
 //		test.testXORing();
 		test.testEntryLinkedList();
 	}
@@ -51,9 +52,6 @@ class MyEntry {
 	
 	@Override
 	public boolean equals(Object obj) {
-		/*if(obj instanceof MyEntry && ((MyEntry)obj).name == this.name) {
-			return true;
-		}*/ 
 		return false;
 	}
 
@@ -64,6 +62,4 @@ class MyEntry {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

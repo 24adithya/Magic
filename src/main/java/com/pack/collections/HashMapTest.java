@@ -8,14 +8,50 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+class User {
+	int id;
+	String name;
+	public User(int id, String name) {
+		super();
+		this.id = id;
+		this.name = name;
+	}
+	
+	@Override
+	public int hashCode() {
+		return 10;
+//		return super.hashCode();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return super.equals(obj);
+	}
+}
+
 public class HashMapTest {
 	public static void main(String[] args) {
-		Map<Integer,Integer> map1 = new HashMap<>();
+		
+		Map<User, Integer> map = new HashMap<>();
+		User uNull = new User(10, "a");
+		User u1 = new User(10, "a");
+		User u2 = new User(10, "a");
+		User u3 = new User(10, "a");
+	
+		map.put(uNull, null);
+		map.put(u1, 10);
+		map.put(u2, 20);
+		map.put(u3, 20);
+		
+		System.out.println(map.get(u1));
+		System.out.println(map.get(new User(10,"a")));
+		
+		/*Map<Integer,Integer> map1 = new HashMap<>();
 		Map<Integer,Integer> map2 = new HashMap<>();
 		
 		HashMapTest test = new HashMapTest();
 		List<Integer> list = test.test1();
-		System.out.println(list);
+		System.out.println(list);*/
 //		test.test();
 //		test.testCustomKeys();
 		/*test.addToMap1(map1);
